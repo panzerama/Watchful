@@ -8,11 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.util.Log;
 
 public class UsernameActivity extends AppCompatActivity {
 
+    private static final String TAG = "UsernameActivity: ";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.w(TAG, "onCreateAction");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_username);
 
