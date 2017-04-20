@@ -1,7 +1,7 @@
 package com.indexyear.jd.watchful;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.widget.Button;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,10 +10,12 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.util.Log;
+import android.widget.EditText;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     private static final String TAG = "WelcomeActivity: ";
+    public static final String EXTRA_MESSAGE = "com.indexyear.jd.watchful.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,5 +54,17 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Sending string from front page to "Username" activity
+     * @param view
+     */
+    public void sendMessage(View view) {
+        Intent intent = new Intent(this, UsernameActivity.class);
+        EditText editText = (EditText) findViewById(R.id.editText);
+        String message = editText.getText().toString();
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
     }
 }

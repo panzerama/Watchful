@@ -26,6 +26,7 @@
         </activity>
         <activity
             android:name=".UsernameActivity"
+            android:parentActivityName=".WelcomeActivity"
             android:label="@string/title_activity_username"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
