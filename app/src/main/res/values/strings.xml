@@ -21,4 +21,6 @@
     <string name="welcome_name">Jason Panzer</string>
     <string name="welcome_button">Next!</string>
     <string name="username_prompt">Username</string>
+    <string name="title_activity_username">UsernameActivity</string>
+    <string name="username_view">Thingy</string>
 </resources>
