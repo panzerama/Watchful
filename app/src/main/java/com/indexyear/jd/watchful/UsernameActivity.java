@@ -7,8 +7,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.util.Log;
+import android.widget.Toast;
 
 public class UsernameActivity extends AppCompatActivity {
 
@@ -20,25 +23,17 @@ public class UsernameActivity extends AppCompatActivity {
         Log.w(TAG, "onCreateAction");
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_username);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        GridView gridview = (GridView) findViewById(R.id.gridview);
+        gridview.setAdapter(new ButtonAdapter(this));
 
-        //get the intent that started this activity
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(WelcomeActivity.EXTRA_MESSAGE);
-
-        // Capture the layout's TextView and set the string as its text
-        TextView textView = (TextView) findViewById(R.id.textView4);
-        textView.setText(message);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(UsernameActivity.this, "" + position,
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
