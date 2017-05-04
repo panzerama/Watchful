@@ -2,8 +2,6 @@ package com.indexyear.jd.watchful;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -60,7 +58,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         Log.w(TAG, "sendMessage");
 
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ButtonActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
