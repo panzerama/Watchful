@@ -25,9 +25,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UsernameActivity"
-            android:parentActivityName=".WelcomeActivity"
-            android:label="@string/title_activity_username"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
