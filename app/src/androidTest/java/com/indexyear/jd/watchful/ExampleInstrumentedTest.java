@@ -26,6 +26,6 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void displaysAppDescription() throws Exception {
-        assertEquals("Watchful", whatever.refers.to.the.headline);
+        //assertEquals("Watchful", whatever.refers.to.the.headline);
     }
 }

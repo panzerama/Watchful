@@ -60,7 +60,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         Log.w(TAG, "sendMessage");
 
-        Intent intent = new Intent(this, UsernameActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
