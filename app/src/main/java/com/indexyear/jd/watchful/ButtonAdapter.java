@@ -51,8 +51,13 @@ public class ButtonAdapter extends BaseAdapter {
 
         appButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast.makeText(mContext, "THING" + passPosition,
-                        Toast.LENGTH_SHORT).show();
+                if(passPosition == 1){
+                    //build the intent here that leads to RecyclerView
+                }
+                else {
+                    Toast.makeText(mContext, "THING" + passPosition,
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
