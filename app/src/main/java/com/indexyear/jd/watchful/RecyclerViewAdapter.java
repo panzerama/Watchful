@@ -13,27 +13,29 @@ import android.widget.TextView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
-    String[] SubjectValues;
+    String[] leftString, rightString;
     Context context;
     View view1;
     ViewHolder viewHolder1;
     TextView textView;
 
-    public RecyclerViewAdapter(Context context1,String[] SubjectValues1){
+    public RecyclerViewAdapter(Context context1,String[] SubjectValues1, String[] SubjectValues2){
 
-        SubjectValues = SubjectValues1;
+        leftString = SubjectValues1;
+        rightString = SubjectValues2;
         context = context1;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView textView;
+        public TextView textView1, textView2;
 
         public ViewHolder(View v){
 
             super(v);
 
-            textView = (TextView)v.findViewById(R.id.subject_textview);
+            textView1 = (TextView)v.findViewById(R.id.subject_textview);
+            textView2 = (TextView)v.findViewById(R.id.object_textview);
         }
     }
 
@@ -50,12 +52,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
 
-        holder.textView.setText(SubjectValues[position]);
+        holder.textView1.setText(leftString[position]);
+        holder.textView2.setText(rightString[position]);
     }
 
     @Override
     public int getItemCount(){
 
-        return SubjectValues.length;
+        return leftString.length;
     }
 }

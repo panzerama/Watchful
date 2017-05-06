@@ -37,7 +37,7 @@ public class RecyclerActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(recylerViewLayoutManager);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(context, leftStrings);
+        recyclerViewAdapter = new RecyclerViewAdapter(context, leftStrings, rightStrings);
 
         recyclerView.setAdapter(recyclerViewAdapter);
     }
