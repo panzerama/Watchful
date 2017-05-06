@@ -1,6 +1,7 @@
 package com.indexyear.jd.watchful;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -53,6 +54,8 @@ public class ButtonAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if(passPosition == 1){
                     //build the intent here that leads to RecyclerView
+                    Intent intent = new Intent(mContext, RecyclerActivity.class);
+                    mContext.startActivity(intent);
                 }
                 else {
                     Toast.makeText(mContext, "THING" + passPosition,
