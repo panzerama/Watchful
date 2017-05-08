@@ -58,7 +58,7 @@ public class WelcomeActivity extends AppCompatActivity {
     public void sendMessage(View view) {
         Log.w(TAG, "sendMessage");
 
-        Intent intent = new Intent(this, ButtonActivity.class);
+        Intent intent = new Intent(this, GridCardActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);

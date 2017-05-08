@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -18,7 +19,7 @@ public class GridCardAdapter extends BaseAdapter {
 
     public GridCardAdapter(Context c) {
         mContext = c;
-    }
+    } //Todo: pass in strings from parent
 
     public int getCount() {
         return mCardStrings.length;
@@ -32,23 +33,23 @@ public class GridCardAdapter extends BaseAdapter {
         return 0;
     }
 
-    // create a new ImageView for each item referenced by the Adapter
+    // create a new CardView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        View card;
+        TextView card;
         final int passPosition = position + 1;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
-            card = new Button(mContext);
+            card = new TextView(mContext);
             card.setLayoutParams(new GridView.LayoutParams(300, 300));
             //appButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
             card.setPadding(8, 8, 8, 8);
         } else {
-            card = convertView;
+            card = (TextView) convertView;
         }
 
-        appButton.setText(mButtonStrings[position]);
+        card.setText(mCardStrings[position]);
 
-        appButton.setOnClickListener(new View.OnClickListener() {
+        card.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(passPosition == 1){
                     //build the intent here that leads to RecyclerView
@@ -62,14 +63,14 @@ public class GridCardAdapter extends BaseAdapter {
             }
         });
 
-        return appButton;
+        return card;
     }
 
     // references to our images
     private String[] mCardStrings = {
-            "Thing1",
-            "Thing2",
-            "Thing3",
-            "Thing4",
+            "These Will",
+            "Later",
+            "Become",
+            "Tweets!",
     };
 }

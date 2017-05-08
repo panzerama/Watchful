@@ -28,6 +28,7 @@ public class GridCardActivity extends AppCompatActivity {
 
         //Instantiate the GridView
         GridView gridview = (GridView) findViewById(R.id.gridview);
+        //Do I need a layout manager here, like RecyclerActivity?
         gridview.setAdapter(new GridCardAdapter(this));
     }
 
