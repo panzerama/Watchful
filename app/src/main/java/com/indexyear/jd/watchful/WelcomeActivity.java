@@ -42,11 +42,19 @@ public class WelcomeActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Intent intent = new Intent(this, WelcomeActivity.class);
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_about){
+            intent.setClass(this, AboutActivity.class);
+        } else if (id == R.id.action_grid) {
+            intent.setClass(this, GridCardActivity.class);
+        } else if (id == R.id.action_recycler){
+            intent.setClass(this, RecyclerActivity.class);
         }
+
+        startActivity(intent);
 
         return super.onOptionsItemSelected(item);
     }

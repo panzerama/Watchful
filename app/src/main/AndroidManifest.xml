@@ -25,21 +25,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ButtonActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".RecyclerActivity"
             android:label="@string/title_activity_recycler"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".GridCardActivity"
             android:label="@string/title_activity_grid_card"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
