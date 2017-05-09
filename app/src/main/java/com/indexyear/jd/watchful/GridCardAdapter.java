@@ -2,6 +2,7 @@ package com.indexyear.jd.watchful;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -35,19 +36,23 @@ public class GridCardAdapter extends BaseAdapter {
 
     // create a new CardView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
-        TextView card;
+        View card;
+        TextView cardText;
         final int passPosition = position + 1;
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
-            card = new TextView(mContext);
-            card.setLayoutParams(new GridView.LayoutParams(300, 300));
+            card = new View(mContext);
+            card = LayoutInflater.from(mContext).inflate(R.layout.cardview_items,parent,false);
+            //card.setLayoutParams(new GridView.LayoutParams(300, 300));
             //appButton.setScaleType(ImageView.ScaleType.CENTER_CROP);
             card.setPadding(8, 8, 8, 8);
         } else {
-            card = (TextView) convertView;
+            card = (View) convertView;
         }
 
-        card.setText(mCardStrings[position]);
+        cardText = (TextView) card.findViewById(R.id.title);
+
+        cardText.setText(mCardStrings[position]);
 
         card.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
