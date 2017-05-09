@@ -27,4 +27,7 @@
     <string name="title_activity_recycler">RecyclerActivity</string>
     <string name="title_activity_grid_card">GridCardActivity</string>
     <string name="title_activity_about">AboutActivity</string>
+    <string name="about_activity_message">Watchful uses your twitter feed to follow messages from
+        politicians in the public eye. You can use the app to corroborate their tweets and
+        (eventually) judge the sentiment behind them.</string>
 </resources>
