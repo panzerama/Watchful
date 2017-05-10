@@ -27,15 +27,27 @@
         <activity
             android:name=".RecyclerActivity"
             android:label="@string/title_activity_recycler"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indexyear.jd.watchful.WelcomeActivity" />
+        </activity>
         <activity
             android:name=".GridCardActivity"
             android:label="@string/title_activity_grid_card"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indexyear.jd.watchful.WelcomeActivity" />
+        </activity>
         <activity
             android:name=".AboutActivity"
             android:label="@string/title_activity_about"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indexyear.jd.watchful.WelcomeActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.indexyear.jd.watchful;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +18,8 @@ import android.widget.RelativeLayout;
 
 public class RecyclerActivity extends AppCompatActivity {
 
+    private static final String TAG = "RecyclerActivity: ";
+
     Context context;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
@@ -25,13 +28,18 @@ public class RecyclerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.w(TAG, "onCreate");
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
+
+        setContentView(R.layout.activity_recycler);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        setContentView(R.layout.activity_recycler);
+        //getsupportactionbar().setdisplayhomeasupenabled(true); //under toolbar declaration
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         context = getApplicationContext();
 
@@ -50,7 +58,7 @@ public class RecyclerActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
+        Log.w(TAG, "onCreateOptionsMenu");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_info, menu);
         return true;
@@ -58,16 +66,25 @@ public class RecyclerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.w(TAG, "onOptionsItemSelected");
 
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        Intent intent = new Intent(this, WelcomeActivity.class);
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_about){
+            intent.setClass(this, AboutActivity.class);
+        } else if (id == R.id.action_grid) {
+            intent.setClass(this, GridCardActivity.class);
+        } else if (id == R.id.action_recycler){
+            intent.setClass(this, RecyclerActivity.class);
         }
+
+        startActivity(intent);
 
         return super.onOptionsItemSelected(item);
     }

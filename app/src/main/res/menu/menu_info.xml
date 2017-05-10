@@ -7,7 +7,7 @@
         android:orderInCategory="1"
         android:title="@string/action_about"
         android:onClick="onOptionsItemSelected"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_grid"
         android:orderInCategory="10"
