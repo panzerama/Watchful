@@ -1,7 +1,11 @@
 package com.indexyear.jd.watchful;
 
+import android.app.DialogFragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,7 +14,7 @@ import android.view.MenuItem;
 import android.util.Log;
 import android.widget.EditText;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity implements RetweetFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "WelcomeActivity: ";
     public static final String EXTRA_MESSAGE = "com.indexyear.jd.watchful.MESSAGE";
@@ -20,9 +24,20 @@ public class WelcomeActivity extends AppCompatActivity {
         Log.w(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_welcome);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment newFragment = new RetweetFragment();
+                newFragment.show(getFragmentManager(), "missiles");
+            }
+        });
     }
 
     @Override
@@ -71,5 +86,9 @@ public class WelcomeActivity extends AppCompatActivity {
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
+    }
+
+    public void onFragmentInteraction(Uri uri){
+        //Todo implement the interaction
     }
 }
