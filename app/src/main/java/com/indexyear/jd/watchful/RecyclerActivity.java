@@ -61,6 +61,8 @@ public class RecyclerActivity extends AppCompatActivity {
         Log.w(TAG, "onCreateOptionsMenu");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_info, menu);
+        menu.findItem(R.id.action_recycler).setVisible(false);
+
         return true;
     }
 

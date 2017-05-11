@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.util.Log;
 import android.widget.EditText;
 
-public class WelcomeActivity extends AppCompatActivity implements RetweetFragment.OnFragmentInteractionListener {
+public class WelcomeActivity extends AppCompatActivity{
 
     private static final String TAG = "WelcomeActivity: ";
     public static final String EXTRA_MESSAGE = "com.indexyear.jd.watchful.MESSAGE";
@@ -34,8 +34,8 @@ public class WelcomeActivity extends AppCompatActivity implements RetweetFragmen
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new RetweetFragment();
-                newFragment.show(getFragmentManager(), "missiles");
+                RetweetFragment newFragment = new RetweetFragment();
+                newFragment.show(getSupportFragmentManager(), "missiles");
             }
         });
     }
@@ -46,6 +46,7 @@ public class WelcomeActivity extends AppCompatActivity implements RetweetFragmen
 
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_info, menu);
+
         return true;
     }
 
@@ -88,7 +89,4 @@ public class WelcomeActivity extends AppCompatActivity implements RetweetFragmen
         startActivity(intent);
     }
 
-    public void onFragmentInteraction(Uri uri){
-        //Todo implement the interaction
-    }
 }
