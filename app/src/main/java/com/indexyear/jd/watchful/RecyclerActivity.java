@@ -15,10 +15,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.RelativeLayout;
+import android.util.Base64;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 public class RecyclerActivity extends AppCompatActivity {
 
     private static final String TAG = "RecyclerActivity: ";
+
+    Intent incomingIntent = getIntent();
+    String searchString = incomingIntent.getStringExtra("EXTRA_MESSAGE");
 
     Context context;
     RecyclerView recyclerView;
@@ -40,6 +53,9 @@ public class RecyclerActivity extends AppCompatActivity {
 
         //getsupportactionbar().setdisplayhomeasupenabled(true); //under toolbar declaration
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //start the request process here
+        retrieveTwitterInfo();
 
         context = getApplicationContext();
 
@@ -89,6 +105,43 @@ public class RecyclerActivity extends AppCompatActivity {
         startActivity(intent);
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void retrieveTwitterInfo(){
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String results;
+        JSONObject timeline;
+
+        String authInfo = encodeAuthInfo();
+
+        twitterAuth(authInfo, queue);
+        retrieveSearchResults(queue);
+
+    }
+
+    public String encodeAuthInfo(){
+        String authString = R.string.twitter_api + ":" + R.string.twitter_secret;
+        return Base64.encodeToString(authString.getBytes(), Base64.DEFAULT);
+    }
+
+    public void twitterAuth(String authInfo, RequestQueue queue){
+        String url = "https://api.twitter.com/oauth2/token";
+        StringRequest tokenRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.d(TAG, "Auth success!");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "The auth request didn't work! Message: " + error.getMessage());
+            }
+        });
+    }
+
+    public String[] retrieveSearchResults(RequestQueue queue){
+        String[] empty = {"", ""};
+        return empty;
     }
 
     String[] leftStrings = {"j6BSQMKwsM", "yR632nnnve", "zx99PkfjOg", "cfR2AurdYl", "W3W9T7G8xX",

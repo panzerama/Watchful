@@ -26,8 +26,8 @@
     <string name="welcome_description">A fun fact about myself: My first degree was in Drama.
         Please enter your twitter username.</string>
     <string name="welcome_name">Jason Panzer</string>
-    <string name="welcome_button">Next!</string>
-    <string name="username_prompt">Username</string>
+    <string name="welcome_button">Search!</string>
+    <string name="username_prompt">\@therealdonald</string>
     <string name="title_activity_username">UsernameActivity</string>
     <string name="username_view">Thingy</string>
     <string name="title_activity_main">MainActivity</string>
