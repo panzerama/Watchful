@@ -7,23 +7,37 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by jd on 5/4/17.
  */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>{
 
-    String[] leftString, rightString;
+    Map<String, String> source;
+    List<String> leftString, rightString;
     Context context;
     View view1;
     ViewHolder viewHolder1;
     TextView textView;
 
-    public RecyclerViewAdapter(Context context1,String[] SubjectValues1, String[] SubjectValues2){
+    public RecyclerViewAdapter(Context context1, Map<String, String> notTweets){
 
-        leftString = SubjectValues1;
-        rightString = SubjectValues2;
+        source = notTweets;
         context = context1;
+        readTweets();
+    }
+
+    private void readTweets(){
+        Iterator tweetIter = source.entrySet().iterator();
+        while(tweetIter.hasNext()){
+            Map.Entry<String, String> pair = (Map.Entry) tweetIter.next();
+            leftString.add(pair.getKey());
+            rightString.add(pair.getValue());
+        }
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -52,13 +66,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position){
 
-        holder.textView1.setText(leftString[position]);
-        holder.textView2.setText(rightString[position]);
+        holder.textView1.setText(leftString.get(position));
+        holder.textView2.setText(rightString.get(position));
     }
 
     @Override
     public int getItemCount(){
 
-        return leftString.length;
+        return leftString == null ? 0 : leftString.size();
     }
 }

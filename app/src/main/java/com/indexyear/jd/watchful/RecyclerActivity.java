@@ -2,6 +2,8 @@ package com.indexyear.jd.watchful;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,17 +23,23 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RecyclerActivity extends AppCompatActivity {
 
     private static final String TAG = "RecyclerActivity: ";
 
     Intent incomingIntent = getIntent();
-    String searchString = incomingIntent.getStringExtra("EXTRA_MESSAGE");
+    //String searchString = incomingIntent.getStringExtra("EXTRA_MESSAGE");
 
     Context context;
     RecyclerView recyclerView;
@@ -39,11 +47,15 @@ public class RecyclerActivity extends AppCompatActivity {
     RecyclerView.Adapter recyclerViewAdapter;
     RecyclerView.LayoutManager recylerViewLayoutManager;
 
+    Map<String, String> notTweets = new HashMap<String, String>();
+    String url = "http://www.critaholic.com/static/boring.json";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.w(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
 
         setContentView(R.layout.activity_recycler);
@@ -54,10 +66,40 @@ public class RecyclerActivity extends AppCompatActivity {
         //getsupportactionbar().setdisplayhomeasupenabled(true); //under toolbar declaration
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //start the request process here
-        retrieveTwitterInfo();
+        RequestQueue rQueue = Volley.newRequestQueue(context);
 
-        context = getApplicationContext();
+        //Debugging connectivity issues
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if(activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting()){
+            Log.d(TAG, "internet is working!");
+        }
+
+
+        //start the request process here
+        //maybe make this a json request?
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response){
+                        Log.d(TAG, "Request worked!");
+                        //make the response json, parse out list of 'user' and 'text' info
+                        processJsonArray(response);
+                        recyclerViewAdapter.notifyDataSetChanged();
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, "Request didn't work! " + error.getMessage());
+            }
+        });
+
+        //queue up request
+        rQueue.add(jsonRequest);
 
         relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout1);
 
@@ -67,9 +109,12 @@ public class RecyclerActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(recylerViewLayoutManager);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(context, leftStrings, rightStrings);
+        //Log.d(TAG, "Size of notTweets is " + notTweets.size());
+
+        recyclerViewAdapter = new RecyclerViewAdapter(context, notTweets);
 
         recyclerView.setAdapter(recyclerViewAdapter);
+
     }
 
     @Override
@@ -107,61 +152,18 @@ public class RecyclerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void retrieveTwitterInfo(){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String results;
-        JSONObject timeline;
+    private void processJsonArray(JSONArray response){
+        Log.d(TAG, "processJsonArray");
 
-        String authInfo = encodeAuthInfo();
-
-        twitterAuth(authInfo, queue);
-        retrieveSearchResults(queue);
-
-    }
-
-    public String encodeAuthInfo(){
-        String authString = R.string.twitter_api + ":" + R.string.twitter_secret;
-        return Base64.encodeToString(authString.getBytes(), Base64.DEFAULT);
-    }
-
-    public void twitterAuth(String authInfo, RequestQueue queue){
-        String url = "https://api.twitter.com/oauth2/token";
-        StringRequest tokenRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                Log.d(TAG, "Auth success!");
+        for(int i=0; i<response.length(); i++){
+            JSONObject userTextPair = null;
+            try {
+                userTextPair = response.getJSONObject(i);
+                notTweets.put(userTextPair.getString("title"), userTextPair.getString("body"));
+                Log.d(TAG, "put the pair");
+            } catch (JSONException e){
+                Log.d(TAG, e.getMessage());
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d(TAG, "The auth request didn't work! Message: " + error.getMessage());
-            }
-        });
+        }
     }
-
-    public String[] retrieveSearchResults(RequestQueue queue){
-        String[] empty = {"", ""};
-        return empty;
-    }
-
-    String[] leftStrings = {"j6BSQMKwsM", "yR632nnnve", "zx99PkfjOg", "cfR2AurdYl", "W3W9T7G8xX",
-            "Hzti5z9LCl", "MFQYmrc7Hw", "irj7yDcL3Y", "Jl9sz5KS1m", "rG1ogatsso", "JRNlkwtRbO",
-            "HIOriyeXTf", "4L9oZoPgMM", "bMNh5bXnF9", "DnWMWSwYDc", "G6X9R5dnmR", "Kun6oAyEfh",
-            "Rxd7oq9cfe", "P7qlydlkI4", "CXIxJIcacv", "cDIXKNv5My", "QIxwGOO5Oc", "aIabanZOhY",
-            "91oXWjZW62", "2LV4v9NGJi", "flLK0XVfl9", "SiHghOamvO", "EQX1jByuG1", "2lbte5Ag0V",
-            "B3j5SV9s41", "GeORaOyIzN", "TKsIGofqeq", "19UmmLwHKd", "ULcN0M4sqs", "ewm8TOUQXr",
-            "s6f5K5dQvE", "BQkMqwGXLn", "tBdPI27Aei", "sbudLVTv7k", "4mItZuw2dh", "LKVHjEHzuu",
-            "iiKq0jbO1J", "egk6LnXMvp", "qW8ztsfcNB", "s52MlwSG44", "QH9iL2VfSL", "IyhNufjWLQ",
-            "DBWxhqCMwp", "zedta6goyO", "opjgAM51Tq"};
-
-    String[] rightStrings = {"yeDTw3dlhV", "llX0sqGKvu", "K3YHF1Qsrt", "SO0VcbpFnv", "kTeQwwLWob",
-            "m7IVFA5EY6", "8WfIZjL78K", "sXScgdwlKc", "k8FpdCiXir", "cHWBlsH5Ok", "I639TWTr3g",
-            "SUggTdtJCL", "eMsSt4Da8L", "9dIrq7FMqw", "huAH4X6fbI", "DZ5EjrN9dM", "CM17cs1fIc",
-            "k2jRKOoziF", "4meF8MgWkC", "9dHhfDq3zF", "Pdg3yPDvuK", "JnbvVxJcdj", "DDYIbxD4X5",
-            "vtjr9XFi68", "Rt9r4DOYpz", "qlFydfzjSr", "k4g6zutD0T", "9QwBLumQdi", "Ec6bLC0xUz",
-            "uYSmeQYAq1", "28vRLWXU8H", "wF7qz3jfxQ", "2IWTicKjBJ", "I0s1OTZPmH", "PESol9xBH0",
-            "gGMSLmlFVE", "EfNbUsEwpJ", "6kc75d4F2V", "FRJVBWN0Be", "TJc3mF1L9g", "2wshrnfTIj",
-            "zQLWFVEWqb", "I07iGs6mvS", "KUEE0l8BSh", "9gREf6zw24", "0nwyJErSAO", "2E1zCN9bHZ",
-            "TViUd2qeO2", "TpOiolQr3x", "atV6sAOerR"};
-
 }
