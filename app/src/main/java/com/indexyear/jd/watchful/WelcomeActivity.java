@@ -1,11 +1,8 @@
 package com.indexyear.jd.watchful;
 
-import android.app.DialogFragment;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,7 +18,7 @@ public class WelcomeActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.w(TAG, "onCreate");
+        Log.d(TAG, "onCreate");
 
         super.onCreate(savedInstanceState);
 
@@ -30,6 +27,7 @@ public class WelcomeActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //todo make this button thing something useful
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,12 +52,9 @@ public class WelcomeActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.w(TAG, "onOptionsItemSelected");
 
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         Intent intent = new Intent(this, WelcomeActivity.class);
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_about){
@@ -68,25 +63,15 @@ public class WelcomeActivity extends AppCompatActivity{
             intent.setClass(this, GridCardActivity.class);
         } else if (id == R.id.action_recycler){
             intent.setClass(this, RecyclerActivity.class);
+            EditText editText = (EditText) findViewById(R.id.username_search);
+            String username = editText.getText().toString();
+            intent.putExtra(EXTRA_MESSAGE, username);
+
         }
 
         startActivity(intent);
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * Sending string from front page to "Username" activity
-     * @param view
-     */
-    public void sendMessage(View view) {
-        Log.w(TAG, "sendMessage");
-
-        Intent intent = new Intent(this, RecyclerActivity.class);
-        EditText editText = (EditText) findViewById(R.id.username_search);
-        String username = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, username);
-        startActivity(intent);
     }
 
 }

@@ -1,81 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.indexyear.jd.watchful.WelcomeActivity"
     tools:showIn="@layout/activity_welcome"
-    tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    >
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:id="@+id/welcome_title"
         android:text="@string/welcome_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:layout_marginLeft="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="60dp"
-        app:layout_constraintHorizontal_bias="0.0" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="275dp"
-        android:layout_height="109dp"
-        android:text="@string/welcome_description"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:id="@+id/welcome_name"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/welcome_title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/welcome_name"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_marginTop="15dp"
+        />
 
-    <Button
-        android:id="@+id/next_button"
-        android:layout_width="130dp"
-        android:layout_height="49dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="30dp"
-        android:onClick="sendMessage"
-        android:text="@string/welcome_button"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username_search" />
+    <TextView
+        android:id="@+id/welcome_blurb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_name"
+        android:text="@string/welcome_description"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        />
+
+
 
     <EditText
         android:id="@+id/username_search"
+        android:layout_below="@id/welcome_blurb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textNoSuggestions|textShortMessage"
-        android:text="@string/username_prompt"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:hint="@string/username_prompt"
+        android:layout_marginTop="15dp"
+        />
 
-</android.support.constraint.ConstraintLayout>
+    <Button
+        android:id="@+id/next_button"
+        android:layout_below="@id/username_search"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:onClick="sendMessage"
+        android:text="@string/welcome_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        />
+
+</RelativeLayout>
