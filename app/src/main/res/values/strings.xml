@@ -43,4 +43,12 @@
     <string name="fire">Fire</string>
     <string name="cancel">Cancel</string>
 
+    <!-- todo refine these options -->
+    <string-array name="grid_button_strings">
+        <item>Add username</item>
+        <item>View list</item>
+        <item>Read tweets</item>
+        <item>Settings or About</item>
+    </string-array>
+
 </resources>

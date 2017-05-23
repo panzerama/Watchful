@@ -2,6 +2,7 @@ package com.indexyear.jd.watchful;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,24 +18,29 @@ import android.widget.Toast;
 
 public class GridCardAdapter extends BaseAdapter {
     private Context mContext;
+    private final String[] mCardStrings;
 
     public GridCardAdapter(Context c) {
         mContext = c;
+        Resources res = mContext.getResources();
+        mCardStrings = res.getStringArray(R.array.grid_button_strings);
     }
 
     public int getCount() {
         return mCardStrings.length;
     }
 
+    // todo what is this meant to accomplish
     public Object getItem(int position) {
         return null;
     }
 
+    // todo what is this meant to return
     public long getItemId(int position) {
         return 0;
     }
 
-    // create a new CardView for each item referenced by the Adapter
+    // todo create behaviors for each button
     public View getView(int position, View convertView, ViewGroup parent) {
         View card;
         TextView cardText;
@@ -70,12 +76,4 @@ public class GridCardAdapter extends BaseAdapter {
 
         return card;
     }
-
-    // references to our images
-    private String[] mCardStrings = {
-            "These Will",
-            "Later",
-            "Become",
-            "Tweets!",
-    };
 }
