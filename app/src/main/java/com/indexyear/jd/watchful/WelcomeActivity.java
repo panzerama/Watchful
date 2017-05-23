@@ -11,6 +11,13 @@ import android.view.MenuItem;
 import android.util.Log;
 import android.widget.EditText;
 
+/**
+ * Main activity for watchful.
+ * todo wire up username to require twitter username (@ optional)
+ * todo load user settings from firebase? keep a list of past tweets
+ * todo unify app theme
+ */
+
 public class WelcomeActivity extends AppCompatActivity{
 
     private static final String TAG = "WelcomeActivity: ";

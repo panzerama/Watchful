@@ -32,12 +32,18 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+/**
+ * List of (soon to be) tweets
+ * todo Twitter auth
+ * todo twitter rest api client
+ * todo ensure that scrolling is endless
+ * todo username picture, tap takes to analysis (static for now)
+ */
+
 public class RecyclerActivity extends AppCompatActivity {
 
     private static final String TAG = "RecyclerActivity: ";
     public static final String EXTRA_MESSAGE = "com.indexyear.jd.watchful.MESSAGE";
-
-
 
     Context context;
     RecyclerView recyclerView;

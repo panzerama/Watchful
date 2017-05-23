@@ -12,6 +12,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 
+/**
+ * Homework requirement, using as basic menu system for now.
+ * todo four static button labels
+ * todo text in action bar in line with color scheme elsewhere
+ *
+ */
+
 public class GridCardActivity extends AppCompatActivity {
 
     private static final String TAG = "GridCardActivity: ";
