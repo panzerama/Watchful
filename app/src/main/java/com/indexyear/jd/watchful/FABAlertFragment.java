@@ -3,22 +3,17 @@ package com.indexyear.jd.watchful;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.support.v4.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.util.ArrayList;
 
+/* homework requirement */
 
-public class RetweetFragment extends DialogFragment {
 
-    final String TAG = "RetweetFragment";
+public class FABAlertFragment extends DialogFragment {
+
+    final String TAG = "FABAlertFragment";
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final ArrayList mSelectedPreferences = new ArrayList();

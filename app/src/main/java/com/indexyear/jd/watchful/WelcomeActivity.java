@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -28,12 +27,12 @@ public class WelcomeActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //todo make this button thing something useful
+        //todo make this button an info popup
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                RetweetFragment newFragment = new RetweetFragment();
+                FABAlertFragment newFragment = new FABAlertFragment();
                 newFragment.show(getSupportFragmentManager(), "missiles");
             }
         });
@@ -65,15 +64,10 @@ public class WelcomeActivity extends AppCompatActivity{
         } else if (id == R.id.action_recycler){
             intent.setClass(this, RecyclerActivity.class);
             EditText editText = (EditText) findViewById(R.id.username_search);
-            String username = editText.getText().toString();
+            String username = (editText.getText().toString().length() > 0) ? editText.getText().toString() : "defaultusername";
             Log.d(TAG, "usernamesearch = " + username);
 
-            if(username == null || username == "") {
-                intent.putExtra(EXTRA_MESSAGE, "defaultusername");
-            } else {
-                intent.putExtra(EXTRA_MESSAGE, username);
-            }
-
+            intent.putExtra(EXTRA_MESSAGE, username);
         }
 
         startActivity(intent);
@@ -84,14 +78,10 @@ public class WelcomeActivity extends AppCompatActivity{
     public void sendMessage(View view){
         Intent intent = new Intent(this, RecyclerActivity.class);
         EditText editText = (EditText) findViewById(R.id.username_search);
-        String username = editText.getText().toString();
+        String username = (editText.getText().toString().length() > 0) ? editText.getText().toString() : "defaultusername";
         Log.d(TAG, "usernamesearch = " + username);
 
-        if(username == null || username == "") {
-            intent.putExtra(EXTRA_MESSAGE, "defaultusername");
-        } else {
-            intent.putExtra(EXTRA_MESSAGE, username);
-        }
+        intent.putExtra(EXTRA_MESSAGE, username);
 
         startActivity(intent);
     }

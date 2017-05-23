@@ -35,21 +35,21 @@ import java.util.List;
 public class RecyclerActivity extends AppCompatActivity {
 
     private static final String TAG = "RecyclerActivity: ";
+    public static final String EXTRA_MESSAGE = "com.indexyear.jd.watchful.MESSAGE";
 
-    Intent incomingIntent = getIntent();
-    //todo this was throwing an error repeatedly. move on and come back to it
-    //String searchString = incomingIntent.getStringExtra("EXTRA_MESSAGE");
+
 
     Context context;
     RecyclerView recyclerView;
-    RelativeLayout relativeLayout;
-    RecyclerView.Adapter recyclerViewAdapter;
     RecyclerView.LayoutManager recylerViewLayoutManager;
     final String url = "http://dev.critaholic.com/static/boring_json.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.w(TAG, "onCreate");
+
+        Intent incomingIntent = getIntent();
+        String searchString = incomingIntent.getStringExtra(EXTRA_MESSAGE);
 
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
@@ -62,26 +62,12 @@ public class RecyclerActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //address intellij warning
 
-        /*
-        setContentView(R.layout.activity_category_result);
-        final RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        rv.setLayoutManager(llm);
-         */
-
-
-
-        //relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout1);
-        //todo is this needed?
-
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview1);
         recylerViewLayoutManager = new LinearLayoutManager(context);
 
         recyclerView.setLayoutManager(recylerViewLayoutManager);
 
         if(/* make a network test thing*/ true){
-            //invoke requestqueuesingleton here
             JsonArrayRequest boringJsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
                 @Override
@@ -124,19 +110,6 @@ public class RecyclerActivity extends AppCompatActivity {
 
 
 
-    }
-
-    public class Atom{ //todo refactor
-        private String key;
-        private String value;
-
-        public Atom(String key, String value){
-            this.key = key;
-            this.value = value;
-        }
-
-        public String getKey() { return key; }
-        public String getValue(){ return value; }
     }
 
     @Override
@@ -210,25 +183,5 @@ public class RecyclerActivity extends AppCompatActivity {
         String[] empty = {"", ""};
         return empty;
     }
-
-    String[] leftStrings = {"j6BSQMKwsM", "yR632nnnve", "zx99PkfjOg", "cfR2AurdYl", "W3W9T7G8xX",
-            "Hzti5z9LCl", "MFQYmrc7Hw", "irj7yDcL3Y", "Jl9sz5KS1m", "rG1ogatsso", "JRNlkwtRbO",
-            "HIOriyeXTf", "4L9oZoPgMM", "bMNh5bXnF9", "DnWMWSwYDc", "G6X9R5dnmR", "Kun6oAyEfh",
-            "Rxd7oq9cfe", "P7qlydlkI4", "CXIxJIcacv", "cDIXKNv5My", "QIxwGOO5Oc", "aIabanZOhY",
-            "91oXWjZW62", "2LV4v9NGJi", "flLK0XVfl9", "SiHghOamvO", "EQX1jByuG1", "2lbte5Ag0V",
-            "B3j5SV9s41", "GeORaOyIzN", "TKsIGofqeq", "19UmmLwHKd", "ULcN0M4sqs", "ewm8TOUQXr",
-            "s6f5K5dQvE", "BQkMqwGXLn", "tBdPI27Aei", "sbudLVTv7k", "4mItZuw2dh", "LKVHjEHzuu",
-            "iiKq0jbO1J", "egk6LnXMvp", "qW8ztsfcNB", "s52MlwSG44", "QH9iL2VfSL", "IyhNufjWLQ",
-            "DBWxhqCMwp", "zedta6goyO", "opjgAM51Tq"};
-
-    String[] rightStrings = {"yeDTw3dlhV", "llX0sqGKvu", "K3YHF1Qsrt", "SO0VcbpFnv", "kTeQwwLWob",
-            "m7IVFA5EY6", "8WfIZjL78K", "sXScgdwlKc", "k8FpdCiXir", "cHWBlsH5Ok", "I639TWTr3g",
-            "SUggTdtJCL", "eMsSt4Da8L", "9dIrq7FMqw", "huAH4X6fbI", "DZ5EjrN9dM", "CM17cs1fIc",
-            "k2jRKOoziF", "4meF8MgWkC", "9dHhfDq3zF", "Pdg3yPDvuK", "JnbvVxJcdj", "DDYIbxD4X5",
-            "vtjr9XFi68", "Rt9r4DOYpz", "qlFydfzjSr", "k4g6zutD0T", "9QwBLumQdi", "Ec6bLC0xUz",
-            "uYSmeQYAq1", "28vRLWXU8H", "wF7qz3jfxQ", "2IWTicKjBJ", "I0s1OTZPmH", "PESol9xBH0",
-            "gGMSLmlFVE", "EfNbUsEwpJ", "6kc75d4F2V", "FRJVBWN0Be", "TJc3mF1L9g", "2wshrnfTIj",
-            "zQLWFVEWqb", "I07iGs6mvS", "KUEE0l8BSh", "9gREf6zw24", "0nwyJErSAO", "2E1zCN9bHZ",
-            "TViUd2qeO2", "TpOiolQr3x", "atV6sAOerR"};
 
 }
