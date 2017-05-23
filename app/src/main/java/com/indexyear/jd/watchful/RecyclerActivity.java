@@ -2,9 +2,10 @@ package com.indexyear.jd.watchful;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
 import android.view.Window;
-import android.widget.RelativeLayout;
 import android.util.Base64;
 import android.widget.Toast;
 
@@ -67,7 +67,7 @@ public class RecyclerActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(recylerViewLayoutManager);
 
-        if(/* make a network test thing*/ true){
+        if(isNetworkUp()){
             JsonArrayRequest boringJsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
                 @Override
@@ -101,8 +101,6 @@ public class RecyclerActivity extends AppCompatActivity {
             });
 
             RequestQueueSingleton.getInstance(this).addToRequestQueue(boringJsonRequest);
-            //recyclerViewAdapter = new RecyclerViewAdapter(context, leftStrings, rightStrings);
-            //recyclerView.setAdapter(recyclerViewAdapter);
         } else {
             Toast.makeText(RecyclerActivity.this, "Network unavailable",
                     Toast.LENGTH_SHORT).show();
@@ -145,6 +143,16 @@ public class RecyclerActivity extends AppCompatActivity {
         startActivity(intent);
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean isNetworkUp(){
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
     }
 
     public void retrieveTwitterInfo(){

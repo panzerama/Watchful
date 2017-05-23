@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Created by jason.panzer on 5/7/2017.
+ * Homework requirement.
  */
 
 public class GridCardAdapter extends BaseAdapter {
@@ -20,7 +20,7 @@ public class GridCardAdapter extends BaseAdapter {
 
     public GridCardAdapter(Context c) {
         mContext = c;
-    } //Todo: pass in strings from parent
+    }
 
     public int getCount() {
         return mCardStrings.length;

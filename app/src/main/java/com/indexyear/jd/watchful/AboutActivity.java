@@ -54,6 +54,7 @@ public class AboutActivity extends AppCompatActivity {
             intent.setClass(this, GridCardActivity.class);
         } else if (id == R.id.action_recycler){
             intent.setClass(this, RecyclerActivity.class);
+            //todo what happens when RecyclerActivity is called from a screen that isn't the welcome screen? - pull settings and user list from firebase?
         }
 
         startActivity(intent);
