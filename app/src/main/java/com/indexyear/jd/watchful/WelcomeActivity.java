@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -56,7 +57,7 @@ public class WelcomeActivity extends AppCompatActivity{
         Intent intent = new Intent(this, WelcomeActivity.class);
 
         if (id == R.id.action_settings) {
-            return true;
+            return true; //todo replace this with a settings menu, esp as you integrate firebase for storing user info HW 6
         } else if (id == R.id.action_about){
             intent.setClass(this, AboutActivity.class);
         } else if (id == R.id.action_grid) {
@@ -65,13 +66,34 @@ public class WelcomeActivity extends AppCompatActivity{
             intent.setClass(this, RecyclerActivity.class);
             EditText editText = (EditText) findViewById(R.id.username_search);
             String username = editText.getText().toString();
-            intent.putExtra(EXTRA_MESSAGE, username);
+            Log.d(TAG, "usernamesearch = " + username);
+
+            if(username == null || username == "") {
+                intent.putExtra(EXTRA_MESSAGE, "defaultusername");
+            } else {
+                intent.putExtra(EXTRA_MESSAGE, username);
+            }
 
         }
 
         startActivity(intent);
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sendMessage(View view){
+        Intent intent = new Intent(this, RecyclerActivity.class);
+        EditText editText = (EditText) findViewById(R.id.username_search);
+        String username = editText.getText().toString();
+        Log.d(TAG, "usernamesearch = " + username);
+
+        if(username == null || username == "") {
+            intent.putExtra(EXTRA_MESSAGE, "defaultusername");
+        } else {
+            intent.putExtra(EXTRA_MESSAGE, username);
+        }
+
+        startActivity(intent);
     }
 
 }

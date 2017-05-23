@@ -16,28 +16,36 @@ import android.view.View;
 import android.view.Window;
 import android.widget.RelativeLayout;
 import android.util.Base64;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class RecyclerActivity extends AppCompatActivity {
 
     private static final String TAG = "RecyclerActivity: ";
 
     Intent incomingIntent = getIntent();
-    String searchString = incomingIntent.getStringExtra("EXTRA_MESSAGE");
+    //todo this was throwing an error repeatedly. move on and come back to it
+    //String searchString = incomingIntent.getStringExtra("EXTRA_MESSAGE");
 
     Context context;
     RecyclerView recyclerView;
     RelativeLayout relativeLayout;
     RecyclerView.Adapter recyclerViewAdapter;
     RecyclerView.LayoutManager recylerViewLayoutManager;
+    final String url = "http://dev.critaholic.com/static/boring_json.json";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,29 +55,88 @@ public class RecyclerActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
 
         setContentView(R.layout.activity_recycler);
+        context = getApplicationContext();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //getsupportactionbar().setdisplayhomeasupenabled(true); //under toolbar declaration
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); //address intellij warning
 
-        //start the request process here
-        retrieveTwitterInfo();
+        /*
+        setContentView(R.layout.activity_category_result);
+        final RecyclerView rv = (RecyclerView) findViewById(R.id.recycler_view);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        rv.setLayoutManager(llm);
+         */
 
-        context = getApplicationContext();
 
-        relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout1);
+
+        //relativeLayout = (RelativeLayout) findViewById(R.id.relativelayout1);
+        //todo is this needed?
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerview1);
-
         recylerViewLayoutManager = new LinearLayoutManager(context);
 
         recyclerView.setLayoutManager(recylerViewLayoutManager);
 
-        recyclerViewAdapter = new RecyclerViewAdapter(context, leftStrings, rightStrings);
+        if(/* make a network test thing*/ true){
+            //invoke requestqueuesingleton here
+            JsonArrayRequest boringJsonRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
-        recyclerView.setAdapter(recyclerViewAdapter);
+                @Override
+                public void onResponse(JSONArray response) {
+                    try {
+                        String[] keys = new String[response.length()];
+                        String[] values = new String[response.length()];
+
+                        JSONObject item;
+                        for(int idx = 0; idx<response.length(); idx++){
+                            item = response.getJSONObject(idx);
+                            keys[idx] = item.getString("title");
+                            values[idx] = item.getString("body");
+                        }
+
+                        RecyclerViewAdapter recycAdapter = new RecyclerViewAdapter(getApplicationContext(), keys, values);
+                        recyclerView.setAdapter(recycAdapter);
+                    } catch (JSONException e) {
+                        Log.d(TAG, "JSONException: " + e.getMessage());
+                    }
+                    Log.d(TAG, "Connection successful!");
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(RecyclerActivity.this, "" + error,
+                            Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+            RequestQueueSingleton.getInstance(this).addToRequestQueue(boringJsonRequest);
+            //recyclerViewAdapter = new RecyclerViewAdapter(context, leftStrings, rightStrings);
+            //recyclerView.setAdapter(recyclerViewAdapter);
+        } else {
+            Toast.makeText(RecyclerActivity.this, "Network unavailable",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
+
+    public class Atom{ //todo refactor
+        private String key;
+        private String value;
+
+        public Atom(String key, String value){
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() { return key; }
+        public String getValue(){ return value; }
     }
 
     @Override
@@ -120,7 +187,7 @@ public class RecyclerActivity extends AppCompatActivity {
     }
 
     public String encodeAuthInfo(){
-        String authString = R.string.twitter_api + ":" + R.string.twitter_secret;
+        String authString = /*R.string.twitter_api + */":"/* + R.string.twitter_secret*/;
         return Base64.encodeToString(authString.getBytes(), Base64.DEFAULT);
     }
 
