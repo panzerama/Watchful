@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /* homework requirement
 *
-* todo turn this into an expanding menu
+* todo turn this into an expanding menu: https://developer.android.com/guide/topics/ui/menus.html
 *
 */
 

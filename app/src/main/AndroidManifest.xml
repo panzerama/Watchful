@@ -50,6 +50,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.indexyear.jd.watchful.WelcomeActivity" />
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="593bb8389ffdf02ba0bbeafc2e0d6de5db62c53e"
+            />
     </application>
 
 </manifest>
