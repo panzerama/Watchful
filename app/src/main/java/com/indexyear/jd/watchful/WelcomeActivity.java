@@ -12,6 +12,15 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.indexyear.jd.watchful.fragments.FABAlertFragment;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterLoginButton;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterException;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Main activity for watchful.
@@ -22,6 +31,7 @@ import com.indexyear.jd.watchful.fragments.FABAlertFragment;
 
 public class WelcomeActivity extends AppCompatActivity{
 
+    private TwitterLoginButton loginButton;
     private static final String TAG = "WelcomeActivity: ";
     public static final String EXTRA_MESSAGE = "com.indexyear.jd.watchful.MESSAGE";
 
@@ -31,12 +41,30 @@ public class WelcomeActivity extends AppCompatActivity{
 
         super.onCreate(savedInstanceState);
 
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(getString(R.string.twitter_key), getString(R.string.twitter_secret));
+        Fabric.with(this, new Twitter(authConfig));
+
         setContentView(R.layout.activity_welcome);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //todo make this button an info popup
+        loginButton = (TwitterLoginButton) findViewById(R.id.login_button);
+        loginButton.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                // Do something with result, which provides a TwitterSession for making API calls
+                Log.d(TAG, "Twitter Login Success.");
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                // Do something on failure
+                Log.d(TAG, "Your login is bad and you should feel bad.");
+            }
+        });
+
+        //todo make this button an info or menu
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,11 +100,11 @@ public class WelcomeActivity extends AppCompatActivity{
             intent.setClass(this, GridCardActivity.class);
         } else if (id == R.id.action_recycler){
             intent.setClass(this, RecyclerActivity.class);
-            EditText editText = (EditText) findViewById(R.id.username_search);
+            /*EditText editText = (EditText) findViewById(R.id.username_search);
             String username = (editText.getText().toString().length() > 0) ? editText.getText().toString() : "defaultusername";
             Log.d(TAG, "usernamesearch = " + username);
 
-            intent.putExtra(EXTRA_MESSAGE, username);
+            intent.putExtra(EXTRA_MESSAGE, username);*/
         }
 
         startActivity(intent);
@@ -86,13 +114,21 @@ public class WelcomeActivity extends AppCompatActivity{
 
     public void sendMessage(View view){
         Intent intent = new Intent(this, RecyclerActivity.class);
-        EditText editText = (EditText) findViewById(R.id.username_search);
+        /*EditText editText = (EditText) findViewById(R.id.username_search);
         String username = (editText.getText().toString().length() > 0) ? editText.getText().toString() : "defaultusername";
         Log.d(TAG, "usernamesearch = " + username);
 
-        intent.putExtra(EXTRA_MESSAGE, username);
+        intent.putExtra(EXTRA_MESSAGE, username);*/
 
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Pass the activity result to the login button.
+        loginButton.onActivityResult(requestCode, resultCode, data);
     }
 
 }

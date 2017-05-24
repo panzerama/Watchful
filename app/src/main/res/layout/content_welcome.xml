@@ -44,9 +44,16 @@
         android:layout_marginTop="15dp"
         />
 
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/welcome_blurb"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        />
 
-
-    <EditText
+    <!--<EditText
         android:id="@+id/username_search"
         android:layout_below="@id/welcome_blurb"
         android:layout_width="wrap_content"
@@ -67,6 +74,6 @@
         android:text="@string/welcome_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        />
+        />-->
 
 </RelativeLayout>
