@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.indexyear.jd.watchful.fragments.FABAlertFragment;
+
 /**
  * Main activity for watchful.
  * todo wire up username to require twitter username (@ optional)

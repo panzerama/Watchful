@@ -1,4 +1,4 @@
-package com.indexyear.jd.watchful;
+package com.indexyear.jd.watchful.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

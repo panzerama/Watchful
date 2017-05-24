@@ -1,4 +1,4 @@
-package com.indexyear.jd.watchful;
+package com.indexyear.jd.watchful.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.indexyear.jd.watchful.R;
 
 /**
  * Created by jd on 5/4/17.

@@ -40,7 +40,6 @@ public class GridCardAdapter extends BaseAdapter {
         return 0;
     }
 
-    // todo create behaviors for each button
     public View getView(int position, View convertView, ViewGroup parent) {
         View card;
         TextView cardText;
