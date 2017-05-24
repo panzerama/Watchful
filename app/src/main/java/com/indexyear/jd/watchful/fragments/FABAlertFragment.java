@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.util.Log;
 import java.util.ArrayList;
 
-/* homework requirement */
+/* homework requirement
+*
+* todo turn this into an expanding menu
+*
+*/
 
 
 public class FABAlertFragment extends DialogFragment {
