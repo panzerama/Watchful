@@ -22,7 +22,7 @@ public class UserTimelineActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "oncreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_timeline);
+        setContentView(R.layout.timeline);
 
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -37,8 +37,6 @@ public class UserTimelineActivity extends ListActivity {
             }
         });*/
 
-        ListView thing = (ListView) findViewById(list);
-
         final UserTimeline userTimeline = new UserTimeline.Builder()
                 .screenName("twitterdev")
                 .build();
@@ -51,7 +49,7 @@ public class UserTimelineActivity extends ListActivity {
             Log.d(TAG, "adapter exists");
         }
 
-        thing.setAdapter(adapter);
+        setListAdapter(adapter);
     }
 
 }
