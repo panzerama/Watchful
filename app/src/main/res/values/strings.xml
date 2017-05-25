@@ -50,5 +50,6 @@
         <item>Read tweets</item>
         <item>Settings or About</item>
     </string-array>
+    <string name="title_activity_user_timeline">UserTimelineActivity</string>
 
 </resources>

@@ -50,10 +50,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.indexyear.jd.watchful.WelcomeActivity" />
         </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="593bb8389ffdf02ba0bbeafc2e0d6de5db62c53e"
-            />
+            android:value="593bb8389ffdf02ba0bbeafc2e0d6de5db62c53e" />
+
+        <activity
+            android:name=".UserTimelineActivity"
+            android:label="@string/title_activity_user_timeline"
+            android:parentActivityName=".WelcomeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.indexyear.jd.watchful.WelcomeActivity" />
+        </activity>
     </application>
 
 </manifest>

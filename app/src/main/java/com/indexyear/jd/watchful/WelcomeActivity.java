@@ -54,7 +54,10 @@ public class WelcomeActivity extends AppCompatActivity{
             @Override
             public void success(Result<TwitterSession> result) {
                 // Do something with result, which provides a TwitterSession for making API calls
-                Log.d(TAG, "Twitter Login Success.");
+                TwitterSession session = result.data;
+                Log.d(TAG, "Success @" + session.getUserName() + "!");
+                Intent intent = new Intent(WelcomeActivity.this, UserTimelineActivity.class);
+                startActivity(intent);
             }
 
             @Override
