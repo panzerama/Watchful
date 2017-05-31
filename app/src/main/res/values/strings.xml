@@ -6,6 +6,7 @@
     <string name="action_recycler">Recycler</string>
     <string name="action_about">About</string>
     <string name="action_grid">Grid</string>
+    <string name="action_map">Map</string>
 
 
     <string name="title_activity_twit_login">Sign in</string>

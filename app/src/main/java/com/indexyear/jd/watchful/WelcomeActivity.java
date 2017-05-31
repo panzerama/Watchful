@@ -77,6 +77,8 @@ public class WelcomeActivity extends AppCompatActivity{
             Log.d(TAG, "usernamesearch = " + username);
 
             intent.putExtra(EXTRA_MESSAGE, username);
+        } else if (id == R.id.action_map){
+            intent.setClass(this, MapActivity.class);
         }
 
         startActivity(intent);

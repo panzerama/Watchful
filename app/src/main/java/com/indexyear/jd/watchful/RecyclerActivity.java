@@ -143,6 +143,8 @@ public class RecyclerActivity extends AppCompatActivity {
             intent.setClass(this, GridCardActivity.class);
         } else if (id == R.id.action_recycler){
             intent.setClass(this, RecyclerActivity.class);
+        } else if (id == R.id.action_map){
+            intent.setClass(this, MapActivity.class);
         }
 
         startActivity(intent);

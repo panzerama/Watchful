@@ -21,6 +21,12 @@
         android:onClick="onOptionsItemSelected"
         app:showAsAction="never" />
     <item
+        android:id="@+id/action_map"
+        android:orderInCategory="40"
+        android:title="@string/action_map"
+        android:onClick="onOptionsItemSelected"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"
