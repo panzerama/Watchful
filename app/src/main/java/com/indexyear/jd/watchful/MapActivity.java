@@ -3,7 +3,10 @@ package com.indexyear.jd.watchful;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.location.Location;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -48,7 +52,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     // A default location (Sydney, Australia) and default zoom to use when location permission is
     // not granted.
-    private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
+    private final LatLng mDefaultLocation = new LatLng(47.7391527, -122.3451326);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean mLocationPermissionGranted;
@@ -68,8 +72,35 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     private String[] mLikelyPlaceAttributions = new String[mMaxEntries];
     private LatLng[] mLikelyPlaceLatLngs = new LatLng[mMaxEntries];
 
+    private AddressResultReceiver mResultReceiver;
+
+    private boolean mAddressRequested = false;
+
+    class AddressResultReceiver extends ResultReceiver {
+        public AddressResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+            String mAddressOutput;
+            // Display the address string
+            // or an error message sent from the intent service.
+            mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
+            Log.d(TAG, "displayAddressOutput(); should go here");
+
+            // Show a toast message if an address was found.
+            if (resultCode == Constants.SUCCESS_RESULT) {
+                Log.d(TAG, "toas address found success!");
+            }
+
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, " onCreate");
+
         super.onCreate(savedInstanceState);
 
         // Retrieve location and camera position from saved instance state.
@@ -98,6 +129,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      */
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, " onSaveInstanceState");
         if (mMap != null) {
             outState.putParcelable(KEY_CAMERA_POSITION, mMap.getCameraPosition());
             outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
@@ -105,22 +137,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         }
     }
 
-    /**
-     * Builds the map when the Google Play services client is successfully connected.
-     */
-    @Override
-    public void onConnected(Bundle connectionHint) {
-        // Build the map.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-    }
+
 
     /**
      * Handles failure to connect to the Google Play services client.
      */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult result) {
+        Log.d(TAG, " onConnectionFailed");
         // Refer to the reference doc for ConnectionResult to see what error codes might
         // be returned in onConnectionFailed.
         Log.d(TAG, "Play services connection failed: ConnectionResult.getErrorCode() = "
@@ -141,6 +165,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      */
     @Override
     public void onMapReady(GoogleMap map) {
+        Log.d(TAG, " onMapReady");
+
         mMap = map;
 
         // Use a custom info window adapter to handle multiple lines of text in the
@@ -180,6 +206,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      * Gets the current location of the device, and positions the map's camera.
      */
     private void getDeviceLocation() {
+        Log.d(TAG, " getDeviceLocation");
+
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,
@@ -215,6 +243,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
         }
+
+        startIntentService();
     }
 
     /**
@@ -224,6 +254,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String permissions[],
                                            @NonNull int[] grantResults) {
+        Log.d(TAG, " onRequestPermissionsResult");
+
         mLocationPermissionGranted = false;
         switch (requestCode) {
             case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
@@ -242,6 +274,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      * current place on the map - provided the user has granted location permission.
      */
     private void showCurrentPlace() {
+        Log.d(TAG, " showCurrentPlace");
+
         if (mMap == null) {
             return;
         }
@@ -294,6 +328,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      * Displays a form allowing the user to select a place from a list of likely places.
      */
     private void openPlacesDialog() {
+        Log.d(TAG, " openPlacesDialog");
+
         // Ask the user to choose the place where they are now.
         DialogInterface.OnClickListener listener =
                 new DialogInterface.OnClickListener() {
@@ -329,6 +365,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
      * Updates the map's UI settings based on whether the user has granted location permission.
      */
     private void updateLocationUI() {
+        Log.d(TAG, " updateLocationUI");
+
         if (mMap == null) {
             return;
         }
@@ -357,6 +395,57 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             mLastKnownLocation = null;
         }
     }
+
+    protected void startIntentService() {
+        Intent intent = new Intent(this, FetchAddressIntentService.class);
+        intent.putExtra(Constants.RECEIVER, mResultReceiver);
+        intent.putExtra(Constants.LOCATION_DATA_EXTRA, mLastKnownLocation);
+        startService(intent);
+    }
+
+    public void fetchAddressButtonHandler(View view) {
+        // Only start the service to fetch the address if GoogleApiClient is
+        // connected.
+        if (mGoogleApiClient.isConnected() && mLastKnownLocation != null) {
+            startIntentService();
+        }
+        // If GoogleApiClient isn't connected, process the user's request by
+        // setting mAddressRequested to true. Later, when GoogleApiClient connects,
+        // launch the service to fetch the address. As far as the user is
+        // concerned, pressing the Fetch Address button
+        // immediately kicks off the process of getting the address.
+        mAddressRequested = true;
+        Log.d(TAG, "updateUIWidgets(); goes here");
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        Log.d(TAG, " onConnected");
+
+        // Build the map.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        // Gets the best and most recent location currently available,
+        // which may be null in rare cases when a location is not available.
+        //mLastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(
+                //mGoogleApiClient);
+
+        if (mLastKnownLocation != null) {
+            // Determine whether a Geocoder is available.
+            if (!Geocoder.isPresent()) {
+                Toast.makeText(this, R.string.no_geocoder_available,
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if (mAddressRequested) {
+                startIntentService();
+            }
+        }
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
